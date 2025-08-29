@@ -1,0 +1,363 @@
+<!</p>
+                <p>This defining relationship can be expressed mathematically by Hooke's Law for an idealized spring, which serves as the archetypal model for SHM. If an object's displacement from its equilibrium position is denoted by the vector \( \vec{x} \), the restoring force \( \vec{F} \) is given by:</p>
+                <blockquote>$$\vec{F} = -k \vec{x}$$</blockquote>
+                <p>Here, \( k \) is a positive constant known as the force constant or spring constant, which quantifies the stiffness of the restoring force (measured in Newtons per meter, N/m).[5, 6, 7] The negative sign is of paramount importance; it mathematically encodes the restorative nature of the force, signifying that the force vector always points in the direction opposite to the displacement vector.[8] If the object is displaced to the right (positive \( x \)), the force is directed to the left (negative), and vice versa, always acting to pull or push the object back towards the equilibrium point at \( x=0 \).</p>
+
+                <h4>1.2 The Differential Equation of SHM: A Mathematical Description</h4>
+                <p>The dynamics of a system are governed by Newton's Second Law of Motion, which states that the net force acting on an object is equal to the product of its mass and acceleration (\( \vec{F} = m\vec{a} \)). By applying this fundamental law to the restoring force that defines SHM, we can derive the system's equation of motion. For one-dimensional motion along the x-axis, the acceleration is the second time derivative of the position, \( a = d^2x/dt^2 \). Equating Newton's law with the restoring force gives:</p>
+                <blockquote>$$m \frac{d^2x}{dt^2} = -kx$$</blockquote>
+                <p>This equation can be rearranged into a standard form that is characteristic of SHM. Dividing by the mass \( m \), we obtain:</p>
+                <blockquote>$$\frac{d^2x}{dt^2} + \frac{k}{m}x = 0$$</blockquote>
+                <p>This is a second-order linear homogeneous ordinary differential equation (ODE) with constant coefficients.[7, 8, 9, 10] The term \( k/m \) is a constant that depends only on the intrinsic properties of the system: its stiffness (\( k \)) and its inertia (\( m \)). For mathematical convenience and physical insight, this term is defined as the square of the angular frequency, \( \omega \):</p>
+                <blockquote>$$\omega^2 = \frac{k}{m}$$</blockquote>
+                <p>The angular frequency \( \omega \) has units of radians per second and represents the rate of change of the oscillation's phase. Substituting this definition, we arrive at the canonical form of the differential equation for SHM:</p>
+                <blockquote>$$\frac{d^2x}{dt^2} + \omega^2x = 0$$</blockquote>
+                <p>This equation is the mathematical fingerprint of Simple Harmonic Motion. Its appearance in any physical system, regardless of context, signals that the system's displacement will vary sinusoidally with time.[9, 11, 12]</p>
+                <p>The universality of this mathematical form is a profound concept in physics. It reveals a deep structural similarity, or isomorphism, between seemingly disparate physical phenomena. For instance, consider an ideal electrical circuit consisting of an inductor (\( L \)) and a capacitor (\( C \)), known as an LC circuit. Applying Kirchhoff's loop law, the sum of voltages across the components is zero: \( V_L + V_C = 0 \). The voltage across the inductor is \( L(dI/dt) \) and across the capacitor is \( q/C \), where \( q \) is the charge on the capacitor and \( I \) is the current. Since current is the rate of flow of charge, \( I = dq/dt \), the inductor voltage can be written as \( L(d^2q/dt^2) \). The circuit equation thus becomes:</p>
+                <blockquote>$$L\frac{d^2q}{dt^2} + \frac{1}{C}q = 0$$</blockquote>
+                <p>Rearranging this gives:</p>
+                <blockquote>$$\frac{d^2q}{dt^2} + \frac{1}{LC}q = 0$$</blockquote>
+                <p>This equation is mathematically identical to the SHM equation for a mass-spring system. By direct comparison, we can establish a set of analogies: the charge \( q \) is analogous to displacement \( x \), the inductance \( L \) (which opposes changes in current) is analogous to mass \( m \) (mechanical inertia), and the reciprocal of capacitance \( 1/C \) (which relates charge to potential) is analogous to the spring constant \( k \) (mechanical stiffness).[13, 14, 15] This isomorphism implies that all mathematical results derived for mechanical SHM, from sinusoidal solutions to energy conservation and resonance, have direct parallels in the behavior of ideal LC circuits.</p>
+
+                <h4>1.3 The General Solution: Describing Motion Through Time</h4>
+                <p>The general solution to the second-order differential equation \( d^2x/dt^2 + \omega^2x = 0 \) is a sinusoidal function of time. It can be expressed in several equivalent forms, but the most common is the cosine form:</p>
+                <blockquote>$$x(t) = A \cos(\omega t + \phi)$$</blockquote>
+                <p>Here, \( A \) and \( \phi \) are two arbitrary constants of integration, whose physical meanings are determined by the initial conditions of the motion.[1, 6, 7, 16, 17] Let us meticulously define each term in this solution:</p>
+                <ul>
+                    <li><strong>Amplitude (\( A \)):</strong> This is the maximum displacement of the object from its equilibrium position. The cosine function varies between -1 and +1, so the displacement \( x(t) \) varies between \( -A \) and \( +A \). The amplitude is always a positive quantity and is determined by the initial energy imparted to the system.</li>
+                    <li><strong>Angular Frequency (\( \omega \)):</strong> As defined earlier, \( \omega = \sqrt{k/m} \). It is an intrinsic property of the oscillator. It is related to the time period \( T \) (the time for one complete oscillation) and the frequency \( f \) (the number of oscillations per unit time) by the fundamental relations \( \omega = 2\pi/T \) and \( \omega = 2\pi f \).</li>
+                    <li><strong>Phase (\( \omega t + \phi \)):</strong> The entire argument of the cosine function is called the phase of the motion. It is an angle (in radians) that specifies the state of the oscillator—its position and direction of motion—at any given instant \( t \).</li>
+                    <li><strong>Phase Constant (\( \phi \)):</strong> Also known as the initial phase or epoch, \( \phi \) is the phase of the motion at time \( t=0 \). Its value is determined by the initial position \( x(0) \) and initial velocity \( v(0) \) of the oscillator. For example, if the oscillator is released from rest at its maximum positive displacement at \( t=0 \), then \( x(0) = A \). Substituting into the general solution gives \( A = A \cos(\phi) \), which implies \( \cos(\phi) = 1 \), so \( \phi = 0 \). If the oscillator is at the equilibrium position at \( t=0 \) and moving in the negative direction, then \( x(0) = 0 \) and \( v(0) < 0 \). This requires \( \cos(\phi) = 0 \) and \( -A\omega \sin(\phi) < 0 \), which is satisfied by \( \phi = \pi/2 \).</li>
+                </ul>
+            </section>
+
+            <section id="shm-kinematics">
+                <h3>Section 2: Kinematics and Energy Dynamics of SHM</h3>
+                
+                <h4>2.1 Displacement, Velocity, and Acceleration: A Calculus-Based Derivation</h4>
+                <p>The kinematic quantities of velocity and acceleration can be rigorously derived from the expression for displacement by applying the fundamental definitions from calculus. Starting with the general solution for displacement:</p>
+                <blockquote>$$x(t) = A \cos(\omega t + \phi)$$</blockquote>
+                <p>The instantaneous velocity, \( v(t) \), is the first time derivative of the displacement:</p>
+                <blockquote>$$v(t) = \frac{dx}{dt} = -A\omega \sin(\omega t + \phi)$$</blockquote>
+                <p>The instantaneous acceleration, \( a(t) \), is the first time derivative of the velocity (and the second time derivative of displacement):</p>
+                <blockquote>$$a(t) = \frac{dv}{dt} = -A\omega^2 \cos(\omega t + \phi)$$</blockquote>
+                <p>By inspecting these results, we can make a crucial observation. Since \( x(t) = A \cos(\omega t + \phi) \), the expression for acceleration can be rewritten as:</p>
+                <blockquote>$$a(t) = -\omega^2 x(t)$$</blockquote>
+                <p>This result directly confirms the initial physical definition of SHM: the acceleration is directly proportional to the displacement and is always directed opposite to the displacement vector.[1, 7, 18, 19]</p>
+                <p>While the time-dependent expressions for velocity are essential, it is often more useful in problem-solving to have a relation between velocity and position, independent of time. This can be derived from the equations for \( x(t) \) and \( v(t) \) using the fundamental trigonometric identity \( \sin^2\theta + \cos^2\theta = 1 \). From the displacement equation, \( \cos(\omega t + \phi) = x/A \). From the velocity equation, \( \sin(\omega t + \phi) = -v/(A\omega) \). Substituting these into the identity:</p>
+                <blockquote>$$\left( \frac{-v}{A\omega} \right)^2 + \left( \frac{x}{A} \right)^2 = 1$$</blockquote>
+                <p>Multiplying by \( A^2\omega^2 \) and rearranging for \( v^2 \):</p>
+                <blockquote>$$v^2 = \omega^2(A^2 - x^2)$$</blockquote>
+                <p>Taking the square root gives the velocity as a function of position:</p>
+                <blockquote>$$v = \pm\omega\sqrt{A^2 - x^2}$$</blockquote>
+                <p>This powerful relation shows that the speed is maximum (\( v_{max} = A\omega \)) at the equilibrium position (\( x=0 \)) and is zero at the extreme positions (\( x = \pm A \)), as expected.[3, 7, 17] The \( \pm \) sign indicates that for any position \( x \) (other than the extremes), the object can be moving in either the positive or negative direction.</p>
+
+                <h4>2.2 Phase Relationships and Graphical Analysis</h4>
+                <p>A deeper understanding of the kinematics of SHM comes from analyzing the phase relationships between displacement, velocity, and acceleration. The functions describing these quantities are cosine, negative sine, and negative cosine, respectively.</p>
+                <ul>
+                    <li>\( x(t) = A \cos(\omega t + \phi) \)</li>
+                    <li>\( v(t) = -A\omega \sin(\omega t + \phi) = A\omega \cos(\omega t + \phi + \pi/2) \)</li>
+                    <li>\( a(t) = -A\omega^2 \cos(\omega t + \phi) = A\omega^2 \cos(\omega t + \phi + \pi) \)</li>
+                </ul>
+                <p>From these forms, it is evident that the velocity function leads the displacement function by a phase angle of \( \pi/2 \) radians (90°). This means the velocity reaches its maximum value one-quarter of a period before the displacement reaches its maximum. Similarly, acceleration leads velocity by \( \pi/2 \) radians, and consequently, acceleration and displacement are out of phase by \( \pi \) radians (180°). This 180° phase difference signifies that the acceleration vector is always directed opposite to the displacement vector.[1, 20]</p>
+                <p>For rapid conceptual analysis, the state of the oscillator at its critical points—the equilibrium (or mean) position and the extreme positions—is of great importance. The following table provides a comprehensive summary.</p>
+                
+                <table>
+                    <caption>Table 1: Comparative Analysis of Kinematic and Dynamic Variables in SHM</caption>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Mean Position ($x=0$)</th>
+                            <th>Positive Extreme ($x=+A$)</th>
+                            <th>Negative Extreme ($x=-A$)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Displacement ($x$)</strong></td>
+                            <td>0</td>
+                            <td>$+A$</td>
+                            <td>$-A$</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Velocity ($v$)</strong></td>
+                            <td>$\pm v_{max} = \pm A\omega$</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Acceleration ($a$)</strong></td>
+                            <td>0</td>
+                            <td>$-a_{max} = -A\omega^2$</td>
+                            <td>$+a_{max} = +A\omega^2$</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kinetic Energy (KE)</strong></td>
+                            <td>Max: $\frac{1}{2}kA^2$</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Potential Energy (PE)</strong></td>
+                            <td>0</td>
+                            <td>Max: $\frac{1}{2}kA^2$</td>
+                            <td>Max: $\frac{1}{2}kA^2$</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Restoring Force ($F$)</strong></td>
+                            <td>0</td>
+                            <td>Max: $-kA$</td>
+                            <td>Max: $+kA$</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>2.3 Conservation of Energy in SHM: The Oscillation of Kinetic and Potential Energy</h4>
+                <p>For a conservative system like an ideal mass-spring oscillator, the total mechanical energy is conserved. The energy of the system continuously transforms between potential and kinetic forms, but their sum remains constant.[21, 22, 23, 24, 25, 26]</p>
+                <p>The potential energy (PE) stored in the system due to its displacement from equilibrium is given by:</p>
+                <blockquote>$$U(x) = \frac{1}{2}kx^2$$</blockquote>
+                <p>The kinetic energy (KE) of the oscillating mass \( m \) is:</p>
+                <blockquote>$$K(v) = \frac{1}{2}mv^2$$</blockquote>
+                <p>The total mechanical energy \( E \) of the system is the sum of the potential and kinetic energies:</p>
+                <blockquote>$$E = K + U = \frac{1}{2}mv^2 + \frac{1}{2}kx^2$$</blockquote>
+                <p>To demonstrate that this total energy is constant, we can substitute the relationship \( v^2 = \omega^2(A^2 - x^2) \) and the definition \( k = m\omega^2 \):</p>
+                <blockquote>$$ E = \frac{1}{2}kA^2$$</blockquote>
+                <p>This result shows that the total energy of a simple harmonic oscillator is constant and is proportional to the square of the amplitude.[1, 17, 22, 23, 24] This energy is determined solely by the initial conditions that set the amplitude \( A \).</p>
+                <p>A more nuanced analysis reveals that while the displacement and velocity oscillate with angular frequency \( \omega \), the kinetic and potential energies oscillate at twice this frequency. This can be shown by substituting the time-dependent expressions for \( x(t) \) and \( v(t) \) into the energy equations:</p>
+                <blockquote>$$U(t) = \frac{1}{4}kA^2 [1 + \cos(2(\omega t + \phi))]$$</blockquote>
+                <blockquote>$$K(t) = \frac{1}{4}kA^2 [1 - \cos(2(\omega t + \phi))]$$</blockquote>
+                <p>These equations explicitly show that both the potential and kinetic energies oscillate with an angular frequency of \( 2\omega \).</p>
+            </section>
+            
+            <section id="shm-manifestations">
+                <h3>Section 3: Physical Manifestations of SHM</h3>
+                <p>The abstract theory of SHM finds concrete application in a variety of physical systems. The analysis of these systems involves identifying the source of the linear restoring force or torque and determining the corresponding inertia and stiffness factors to find the period of oscillation.</p>
+                
+                <h4>3.1 The Linear Mass-Spring System</h4>
+                <p>The mass-spring system is the canonical example of SHM. For a mass \( m \) attached to a spring of constant \( k \) on a frictionless horizontal surface, the time period of oscillation is:</p>
+                <blockquote>$$T = 2\pi\sqrt{\frac{m}{k}}$$</blockquote>
+                <p>For a mass hanging vertically from a spring, gravity only serves to shift the center of oscillation, and the time period remains the same.[27, 28, 29]</p>
+
+                <h4>3.2 Combinations of Springs: Series and Parallel Configurations</h4>
+                <p>For a <strong>Series Combination</strong>, the equivalent spring constant \( k_s \) is given by:</p>
+                <blockquote>$$\frac{1}{k_s} = \frac{1}{k_1} + \frac{1}{k_2} + \dots$$</blockquote>
+                <p>For a <strong>Parallel Combination</strong>, the equivalent spring constant \( k_p \) is given by:</p>
+                <blockquote>$$k_p = k_1 + k_2 + \dots$$</blockquote>
+                <p>The time period is then calculated using the equivalent spring constant.[17, 28, 30]</p>
+
+                <h4>3.3 The Simple Pendulum</h4>
+                <p>A simple pendulum consists of a point mass \( m \) suspended by a massless string of length \( L \). For small angular displacements, the motion is approximately SHM.[11, 31, 32, 33] The period of the simple pendulum is:</p>
+                <blockquote>$$T = 2\pi\sqrt{\frac{L}{g}}$$</blockquote>
+                <p>Notably, for small oscillations, the period is independent of the mass of the bob and the amplitude of the swing.[32, 33, 34, 35]</p>
+
+                <h4>3.4 The Physical Pendulum</h4>
+                <p>A physical pendulum is any rigid body of mass \( m \) oscillating about a pivot point. Let \( I \) be the moment of inertia about the pivot, and \( d \) be the distance from the pivot to the body's center of mass (CM). The period is:</p>
+                <blockquote>$$T = 2\pi\sqrt{\frac{I}{mgd}}$$</blockquote>
+                <p>This is a general formula for any oscillating rigid body.[32, 34, 36, 37, 38, 39, 40, 41]</p>
+
+                <h4>3.5 The Torsional Pendulum</h4>
+                <p>A torsional pendulum consists of a rigid body suspended by a wire. The restoring torque is \( \tau = -\kappa\theta \), where \( \kappa \) is the torsional constant. The period is:</p>
+                <blockquote>$$T = 2\pi\sqrt{\frac{I}{\kappa}}$$</blockquote>
+                <p>This system is useful for determining the moment of inertia of irregularly shaped objects.[17, 42, 43, 44, 45, 46]</p>
+                
+                <table>
+                    <caption>Table 2: Summary of Time Period Formulae for Canonical Oscillators</caption>
+                    <thead>
+                        <tr>
+                            <th>Oscillating System</th>
+                            <th>Inertia Factor</th>
+                            <th>Stiffness (Restoring) Factor</th>
+                            <th>Time Period ($T$)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Mass-Spring System</strong></td>
+                            <td>Mass ($m$)</td>
+                            <td>Spring Constant ($k$)</td>
+                            <td>$2\pi\sqrt{\frac{m}{k}}$</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Simple Pendulum</strong></td>
+                            <td>Length ($L$) / Mass ($m$)</td>
+                            <td>Gravitational ($g$) / (Effective: $mg/L$)</td>
+                            <td>$2\pi\sqrt{\frac{L}{g}}$</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Physical Pendulum</strong></td>
+                            <td>Moment of Inertia ($I$)</td>
+                            <td>Gravitational Torque ($mgd$)</td>
+                            <td>$2\pi\sqrt{\frac{I}{mgd}}$</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Torsional Pendulum</strong></td>
+                            <td>Moment of Inertia ($I$)</td>
+                            <td>Torsional Constant ($\kappa$)</td>
+                            <td>$2\pi\sqrt{\frac{I}{\kappa}}$</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <section id="shm-advanced">
+                <h3>Section 4: Advanced Topics in Oscillatory Motion</h3>
+                <p>Real-world oscillators are rarely ideal. They are subject to dissipative forces like friction and can be influenced by external driving forces. The IIT-JEE Advanced syllabus requires a theoretical understanding of these more complex scenarios.[13, 14]</p>
+                
+                <h4>4.1 Damped Oscillations: The Role of Resistive Forces</h4>
+                <p>In real systems, forces like friction dissipate energy, causing the amplitude of oscillations to decrease. This is known as damping. A common model for the damping force is \(F_d = -bv\), where \(b\) is the damping constant.[47, 48] The equation of motion becomes:</p>
+                <blockquote>$$m\frac{d^2x}{dt^2} + b\frac{dx}{dt} + kx = 0$$</blockquote>
+                <p>There are three regimes:</p>
+                <ul>
+                    <li><strong>Underdamped:</strong> The system oscillates with an exponentially decaying amplitude. The angular frequency \( \omega' \) is less than the natural frequency \( \omega_0 \).[47, 48, 49, 50]</li>
+                    <li><strong>Critically Damped:</strong> The system returns to equilibrium as quickly as possible without oscillating.[51]</li>
+                    <li><strong>Overdamped:</strong> The system returns to equilibrium slowly and exponentially, without oscillating.</li>
+                </ul>
+
+                <h4>4.2 Forced Oscillations and the Phenomenon of Resonance</h4>
+                <p>Forced oscillations occur when a system is subjected to an external, periodic driving force, e.g., \( F(t) = F_0 \cos(\omega t) \). The equation of motion is:</p>
+                <blockquote>$$m\frac{d^2x}{dt^2} + b\frac{dx}{dt} + kx = F_0 \cos(\omega t)$$</blockquote>
+                <p>After initial transients die out, the system settles into a steady-state oscillation at the driving frequency \( \omega \).[52, 53, 54, 55, 56] The amplitude of this steady-state motion is:</p>
+                <blockquote>$$A(\omega) = \frac{F_0}{\sqrt{m^2(\omega_0^2 - \omega^2)^2 + b^2\omega^2}}$$</blockquote>
+                <p><strong>Resonance</strong> occurs when the amplitude becomes maximum. This happens at a resonance frequency \( \omega_r \) which is slightly less than the natural frequency \( \omega_0 \) for a damped system.[52, 53, 56, 57]</p>
+                <blockquote>$$\omega_r^2 = \omega_0^2 - \frac{b^2}{2m^2}$$</blockquote>
+
+                <h4>4.3 The Principle of Superposition: Combining Oscillations</h4>
+                <p>The linearity of the SHM equation allows for the principle of superposition. If \( x_1(t) \) and \( x_2(t) \) are solutions, then their linear combination is also a solution.[58, 59]</p>
+                <h5>4.3.1 Collinear Superposition</h5>
+                <p>When two SHMs act along the same line, the resultant is the algebraic sum. If two SHMs have slightly different frequencies, the phenomenon of <strong>beats</strong> occurs, with a beat frequency equal to the difference between the two original frequencies: \(f_{beat} = |f_1 - f_2|\).[59, 60]</p>
+                <h5>4.3.2 Perpendicular Superposition</h5>
+                <p>When a particle is subjected to two perpendicular SHMs, it traces a two-dimensional path known as a <strong>Lissajous figure</strong>. The shape depends on the frequency ratio and phase difference.[59, 60, 61] For equal frequencies, the path can be a straight line, an ellipse, or a circle depending on the phase difference.</p>
+            </section>
+        </article>
+
+        <article id="part2">
+            <h2>Part II: The Physics of Liquid Surfaces: Surface Tension</h2>
+            <p>This part explores the microscopic origins and macroscopic manifestations of forces that govern the behavior of liquid surfaces, a key topic in the "Properties of Matter" section of the syllabus.[13, 62, 63, 64]</p>
+
+            <section id="st-molecular">
+                <h3>Section 5: The Molecular Origins of Surface Tension</h3>
+                
+                <h4>5.1 Intermolecular Forces: Cohesion and Adhesion</h4>
+                <p>The behavior of liquids is dictated by intermolecular forces:</p>
+                <ul>
+                    <li><strong>Cohesive Forces:</strong> Attractive forces between molecules of the same substance (e.g., water-water).[65, 66, 67, 68, 69, 70]</li>
+                    <li><strong>Adhesive Forces:</strong> Attractive forces between molecules of different substances (e.g., water-glass).[65, 66, 67, 68, 70]</li>
+                </ul>
+
+                <h4>5.2 The Surface Layer: Anisotropic Forces and Potential Energy</h4>
+                <p>A molecule in the bulk of a liquid is pulled equally in all directions, resulting in zero net force. A molecule at the surface, however, experiences a net inward pull from the molecules below it.[66, 67, 71] Work must be done to bring a molecule to the surface, increasing its potential energy. To minimize this potential energy, a liquid naturally minimizes its surface area. This tendency is the macroscopic phenomenon of surface tension, which explains why small liquid drops are spherical.[71, 72, 73]</p>
+            </section>
+
+            <section id="st-quantifying">
+                <h3>Section 6: Quantifying Surface Phenomena</h3>
+                
+                <h4>6.1 Surface Tension: Force per Unit Length</h4>
+                <p>Mechanically, surface tension (\( \gamma \)) is the tangential force per unit length acting along an imaginary line on the liquid's surface.</p>
+                <blockquote>$$\gamma = \frac{F}{L}$$</blockquote>
+                <p>The SI unit is Newtons per meter (N/m).[67, 70, 71, 74, 75]</p>
+
+                <h4>6.2 Surface Energy: Work Done per Unit Area</h4>
+                <p>Thermodynamically, surface energy is the work done (\( W \)) required to increase the surface area (\( \Delta A \)) of the liquid.</p>
+                <blockquote>$$\text{Surface Energy} = \frac{W}{\Delta A}$$</blockquote>
+                <p>The SI unit is Joules per square meter (J/m²).[71, 72, 75, 76]</p>
+
+                <h4>6.3 Derivation of the Equivalence of Surface Tension and Surface Energy</h4>
+                <p>A thought experiment involving a wire frame with a movable side demonstrates that the surface energy (work per unit area) is numerically equal to the surface tension (force per unit length). This equivalence allows problems to be solved using either a force-balance or an energy-minimization approach.[71, 72, 74]</p>
+            </section>
+
+            <section id="st-consequences">
+                <h3>Section 7: Macroscopic Consequences of Surface Tension</h3>
+                
+                <h4>7.1 Excess Pressure Across a Curved Surface: The Young-Laplace Equation</h4>
+                <p>A curved liquid surface creates a pressure difference across the interface. The pressure on the concave side is always greater than on the convex side.[73, 74, 77]</p>
+                <h5>7.1.1 Case Study: The Spherical Liquid Drop</h5>
+                <p>For a spherical liquid drop of radius \( r \), the excess pressure \( \Delta P \) is:</p>
+                <blockquote>$$\Delta P = \frac{2\gamma}{r}$$</blockquote>
+                <p>[78, 79, 80, 73, 81, 82]</p>
+                <h5>7.1.2 Case Study: The Soap Bubble</h5>
+                <p>A soap bubble has two surfaces, so the excess pressure is doubled:</p>
+                <blockquote>$$\Delta P = \frac{4\gamma}{r}$$</blockquote>
+                <p>[77, 81, 82, 83, 84, 85]</p>
+
+                <h4>7.2 The Angle of Contact and Wetting</h4>
+                <p>The shape of a liquid surface near a solid is determined by the balance between cohesive and adhesive forces, quantified by the angle of contact \( \theta \).</p>
+                <h5>7.2.1 Equilibrium at the Contact Line: Young's Equation</h5>
+                <p>At the three-phase contact line, the balance of surface tensions gives Young's equation:</p>
+                <blockquote>$$\gamma_{sv} = \gamma_{sl} + \gamma_{lv} \cos\theta$$</blockquote>
+                <p>[86, 87, 88, 89]</p>
+                <h5>7.2.2 The Shape of the Meniscus</h5>
+                <p>The angle of contact determines the meniscus shape:</p>
+                <ul>
+                    <li><strong>Concave Meniscus:</strong> If adhesion > cohesion (\( \theta < 90^\circ \)), the liquid wets the solid (e.g., water on glass).[90, 91, 92, 93, 94, 95]</li>
+                    <li><strong>Convex Meniscus:</strong> If cohesion > adhesion (\( \theta > 90^\circ \)), the liquid does not wet the solid (e.g., mercury on glass).[90, 91, 92, 93, 94, 95]</li>
+                </ul>
+                <table>
+                    <caption>Table 3: Relationship between Intermolecular Forces, Contact Angle, and Meniscus Shape</caption>
+                    <thead>
+                        <tr>
+                            <th>Force Relationship</th>
+                            <th>Contact Angle ($\theta$)</th>
+                            <th>Wetting Behaviour</th>
+                            <th>Meniscus Shape</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Adhesion > Cohesion</td>
+                            <td>Acute ($\theta < 90^\circ$)</td>
+                            <td>Liquid wets the solid</td>
+                            <td>Concave Up</td>
+                            <td>Water on Glass</td>
+                        </tr>
+                        <tr>
+                            <td>Cohesion > Adhesion</td>
+                            <td>Obtuse ($\theta > 90^\circ$)</td>
+                            <td>Liquid does not wet the solid</td>
+                            <td>Convex Up</td>
+                            <td>Mercury on Glass</td>
+                        </tr>
+                        <tr>
+                            <td>Adhesion $\approx$ Cohesion</td>
+                            <td>Right Angle ($\theta \approx 90^\circ$)</td>
+                            <td>Neutral</td>
+                            <td>Flat</td>
+                            <td>Water on Silver</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>7.3 Capillarity: The Rise and Fall of Liquids in Narrow Tubes</h4>
+                <p>Capillarity is the spontaneous movement of a liquid into a narrow tube, a consequence of surface tension and contact angle.[96, 97]</p>
+                <h5>7.3.1 Derivation of Jurin's Law</h5>
+                <p>When a capillary tube of radius \( r \) is placed in a liquid, the liquid rises or falls to a height \( h \) until the upward surface tension force balances the downward weight of the liquid column. This leads to Jurin's Law:</p>
+                <blockquote>$$h = \frac{2\gamma \cos\theta}{r\rho g}$$</blockquote>
+                <p>This shows that the capillary rise is inversely proportional to the tube's radius.[96, 97, 98, 99, 100]</p>
+            </section>
+
+            <section id="st-factors">
+                <h3>Section 8: Factors and Applications</h3>
+                
+                <h4>8.1 The Influence of Temperature on Surface Tension</h4>
+                <p>As temperature increases, the kinetic energy of molecules increases, weakening cohesive forces. Consequently, the surface tension of a liquid decreases with increasing temperature. At the critical temperature, surface tension becomes zero.[101, 102, 103, 104, 105]</p>
+
+                <h4>8.2 The Effect of Impurities and Surfactants</h4>
+                <p>The presence of other substances can significantly alter surface tension. Highly soluble impurities like salt tend to increase surface tension, while sparingly soluble substances and insoluble impurities like oil decrease it.[102, 104, 105] <strong>Surfactants</strong> (soaps, detergents) are specifically designed to dramatically reduce surface tension.[104, 106]</p>
+
+                <h4>8.3 Application Focus: The Cleaning Action of Detergents</h4>
+                <p>Detergents improve water's cleaning ability through a dual mechanism. Detergent molecules are amphiphilic, having a hydrophilic (water-loving) head and a hydrophobic (water-fearing) tail.[107, 108]</p>
+                <ol>
+                    <li><strong>Wetting Action:</strong> Surfactant molecules at the water's surface disrupt the strong cohesive forces between water molecules, drastically lowering the surface tension. This "wetter" water can easily spread over surfaces and penetrate fabrics.[109, 107, 108, 110]</li>
+                    <li><strong>Emulsifying Action:</strong> The hydrophobic tails of surfactant molecules are attracted to non-polar oil and grease. They surround small grease droplets, forming a structure called a <strong>micelle</strong>. The outer hydrophilic layer of the micelle makes the grease-surfactant complex soluble in water, allowing it to be washed away. This process is called emulsification.[106, 111]</li>
+                </ol>
+            </section>
+        </article>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Theoretical Physics Monograph. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
+]]>
