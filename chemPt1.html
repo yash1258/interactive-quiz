@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 11 Chemistry MCQ Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A multi-screen SPA design is chosen for a clear, step-by-step user experience. 1) A 'Start Screen' introduces the quiz. 2) The 'Quiz Screen' presents one question at a time to maintain focus, with clear navigation and progress tracking. 3) A 'Results Screen' provides immediate, actionable feedback. This structure is more intuitive than displaying all 100 questions at once, reducing user cognitive load and guiding them through assessment to analysis. The flow is designed to be linear and encouraging, making it ideal for self-assessment and exam preparation. -->
+    <!-- Visualization & Content Choices: Report Info: Student's quiz performance data. Goal: Inform and Compare. Viz/Presentation Method: 1) A Donut Chart for overall score (Correct vs. Incorrect). 2) A Bar Chart for topic-wise performance. Interaction: Tooltips on hover for exact numbers. Justification: The donut chart provides a quick, easily digestible summary of overall success. The bar chart is ideal for comparing performance across discrete categories (topics), helping the student instantly identify areas needing more study. Library: Chart.js (Canvas-based). This combination provides both a high-level overview and a detailed breakdown for effective learning. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .quiz-option {
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .quiz-option.selected {
+            background-color: #dbeafe; /* Tailwind's blue-200 */
+            border-color: #3b82f6; /* Tailwind's blue-500 */
+        }
+        .quiz-option.correct {
+            background-color: #dcfce7; /* green-100 */
+            border-color: #22c55e; /* green-500 */
+        }
+        .quiz-option.incorrect {
+            background-color: #fee2e2; /* red-100 */
+            border-color: #ef4444; /* red-500 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-amber-50 text-gray-800">
+
+    <div id="app" class="max-w-4xl mx-auto p-4 md:p-8">
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="text-center">
+            <h1 class="text-4xl font-bold text-amber-800 mb-4">Class 11 Chemistry Quiz</h1>
+            <p class="text-lg text-gray-600 mb-8">Test your knowledge with 100 multiple-choice questions covering key topics for your annual exam. Click 'Start Quiz' when you're ready.</p>
+            <div class="bg-white p-6 rounded-lg shadow-md border border-amber-200">
+                <h2 class="text-2xl font-semibold text-amber-700 mb-4">Topics Covered</h2>
+                <ul class="list-disc list-inside text-left mx-auto max-w-md text-gray-700 space-y-2">
+                    <li>Some Basic Concepts of Chemistry</li>
+                    <li>Structure of Atom</li>
+                    <li>Classification of Elements and Periodicity</li>
+                    <li>Chemical Bonding and Molecular Structure</li>
+                    <li>Organic Chemistry: Basic Principles</li>
+                </ul>
+            </div>
+            <button id="start-btn" class="mt-8 bg-amber-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-amber-700 transition-transform transform hover:scale-105">
+                Start Quiz
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden">
+            <div class="flex justify-between items-center mb-4">
+                <p id="topic-indicator" class="text-sm font-semibold bg-amber-200 text-amber-800 px-3 py-1 rounded-full"></p>
+                <p id="progress-indicator" class="text-lg font-bold text-gray-600"></p>
+            </div>
+            <div id="question-container" class="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-200">
+                <h2 id="question-text" class="text-2xl font-semibold mb-6"></h2>
+                <div id="options-container" class="space-y-4"></div>
+            </div>
+            <div id="navigation-buttons" class="flex justify-between mt-6">
+                <button id="prev-btn" class="bg-gray-300 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-400 transition">Previous</button>
+                <button id="next-btn" class="bg-amber-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-amber-700 transition">Next</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden text-center">
+            <h1 class="text-4xl font-bold text-amber-800 mb-2">Quiz Complete!</h1>
+            <p id="score-text" class="text-2xl text-gray-700 font-semibold mb-4"></p>
+            <p id="feedback-text" class="text-lg text-gray-600 mb-8"></p>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4">Overall Performance</h2>
+                     <div class="chart-container h-64 md:h-80">
+                        <canvas id="overall-chart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4">Performance by Topic</h2>
+                     <div class="chart-container h-64 md:h-80">
+                        <canvas id="topic-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-4 mb-8">
+                <button id="review-btn" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition">Review Answers</button>
+                <button id="restart-btn" class="bg-amber-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-amber-700 transition">Restart Quiz</button>
+            </div>
+            
+            <div id="review-container" class="hidden text-left mt-8 space-y-6"></div>
+        </div>
+    </div>
+
+<script>
+const quizData = [
+    { topic: "Basic Concepts", question: "The law of definite proportions was given by:", options: ["John Dalton", "Joseph Proust", "Antoine Lavoisier", "Richter"], answer: 1 },
+    { topic: "Basic Concepts", question: "The number of moles of solute present in 1 kg of a solvent is called its:", options: ["Molality", "Molarity", "Normality", "Formality"], answer: 0 },
+    { topic: "Basic Concepts", question: "What is the molecular formula of a compound whose empirical formula is CH₂O and molar mass is 180 g/mol?", options: ["C₆H₁₂O₆", "C₂H₄O₂", "C₃H₆O₃", "CH₂O"], answer: 0 },
+    { topic: "Basic Concepts", question: "How many significant figures are in the measurement 0.00208?", options: ["2", "3", "5", "6"], answer: 1 },
+    { topic: "Basic Concepts", question: "Avogadro's number (Nₐ) represents the number of particles in:", options: ["1 gram of a substance", "1 liter of a gas", "1 mole of a substance", "1 kg of a substance"], answer: 2 },
+    { topic: "Basic Concepts", question: "The law of conservation of mass holds good for all of the following except:", options: ["All chemical reactions", "Nuclear reactions", "Endothermic reactions", "Exothermic reactions"], answer: 1 },
+    { topic: "Basic Concepts", question: "Which of the following is an intensive property of matter?", options: ["Mass", "Volume", "Length", "Density"], answer: 3 },
+    { topic: "Basic Concepts", question: "The percentage of sulfur in H₂SO₄ is: (Atomic mass: H=1, S=32, O=16)", options: ["32.65%", "42.15%", "50.00%", "16.32%"], answer: 0 },
+    { topic: "Basic Concepts", question: "Gay Lussac's law of gaseous volumes is applicable only to:", options: ["Reactions involving gases", "Reactions involving liquids", "Reactions involving solids", "All reactions"], answer: 0 },
+    { topic: "Basic Concepts", question: "1 amu (atomic mass unit) is equal to:", options: ["1/12 of the mass of one C-12 atom", "Mass of one H atom", "1/16 of the mass of one O-16 atom", "Mass of one electron"], answer: 0 },
+    { topic: "Basic Concepts", question: "The reaction 2H₂(g) + O₂(g) → 2H₂O(l) is an example of:", options: ["Combination reaction", "Decomposition reaction", "Displacement reaction", "Redox reaction"], answer: 0 },
+    { topic: "Basic Concepts", question: "The concept of the mole links the mass of a substance to:", options: ["The number of particles", "Its volume", "Its density", "Its temperature"], answer: 0 },
+    { topic: "Basic Concepts", question: "What volume of O₂ at STP is required to completely burn 1 mole of carbon?", options: ["22.4 L", "11.2 L", "44.8 L", "1 L"], answer: 0 },
+    { topic: "Basic Concepts", question: "Dimensional analysis is used for:", options: ["Converting units", "Measuring length", "Finding significant figures", "Determining reaction rates"], answer: 0 },
+    { topic: "Basic Concepts", question: "Accuracy in measurement refers to:", options: ["Closeness of various measurements for the same quantity", "Closeness of a single measurement to the true value", "The number of significant figures", "The smallest unit of measurement"], answer: 1 },
+    { topic: "Basic Concepts", question: "The main postulate of Dalton's atomic theory that was later proven incorrect is:", options: ["Atoms are indivisible", "Atoms of different elements are different", "Atoms combine in simple whole number ratios", "All matter is composed of atoms"], answer: 0 },
+    { topic: "Basic Concepts", question: "Which law states that if two elements can combine to form more than one compound, the masses of one element that combine with a fixed mass of the other element are in the ratio of small whole numbers?", options: ["Law of Definite Proportions", "Law of Multiple Proportions", "Avogadro's Law", "Law of Conservation of Mass"], answer: 1 },
+    { topic: "Basic Concepts", question: "Limiting reagent in a chemical reaction is the one which:", options: ["Is present in the least amount", "Is consumed completely", "Is present in excess", "Does not react"], answer: 1 },
+    { topic: "Basic Concepts", question: "The S.I. unit for the amount of substance is:", options: ["Kilogram", "Gram", "Mole", "Litre"], answer: 2 },
+    { topic: "Basic Concepts", question: "Stoichiometry is based on:", options: ["The law of conservation of mass", "The law of constant proportions", "The law of multiple proportions", "All of the above"], answer: 3 },
+    { topic: "Structure of Atom", question: "The e/m ratio for an electron was determined by:", options: ["J.J. Thomson", "R.A. Millikan", "Rutherford", "Chadwick"], answer: 0 },
+    { topic: "Structure of Atom", question: "Which of the following quantum numbers determines the shape of an orbital?", options: ["Principal quantum number (n)", "Azimuthal quantum number (l)", "Magnetic quantum number (m)", "Spin quantum number (s)"], answer: 1 },
+    { topic: "Structure of Atom", question: "According to Heisenberg's Uncertainty Principle, it is impossible to determine simultaneously:", options: ["The position and velocity of an electron", "The charge and mass of an electron", "The energy and momentum of an electron", "The spin and orientation of an electron"], answer: 0 },
+    { topic: "Structure of Atom", question: "The number of orbitals in the n=3 shell is:", options: ["3", "6", "9", "12"], answer: 2 },
+    { topic: "Structure of Atom", question: "The electronic configuration of Chromium (Z=24) is:", options: ["[Ar] 4s² 3d⁴", "[Ar] 4s¹ 3d⁵", "[Ar] 4s² 3d³ 4p¹", "[Ar] 4s⁰ 3d⁶"], answer: 1 },
+    { topic: "Structure of Atom", question: "The nucleus of an atom was discovered by:", options: ["Thomson's plum pudding model", "Rutherford's alpha-scattering experiment", "Bohr's model", "Millikan's oil drop experiment"], answer: 1 },
+    { topic: "Structure of Atom", question: "The phenomenon of black body radiation was explained by:", options: ["Max Planck", "Albert Einstein", "Niels Bohr", "Louis de Broglie"], answer: 0 },
+    { topic: "Structure of Atom", question: "The shape of a p-orbital is:", options: ["Spherical", "Dumb-bell", "Double dumb-bell", "Complex"], answer: 1 },
+    { topic: "Structure of Atom", question: "Which rule states that electron pairing will not take place in orbitals of the same energy until each orbital is singly filled?", options: ["Aufbau principle", "Pauli's exclusion principle", "Hund's rule of maximum multiplicity", "Heisenberg's uncertainty principle"], answer: 2 },
+    { topic: "Structure of Atom", question: "Isotopes of an element have:", options: ["Same atomic number but different mass number", "Same mass number but different atomic number", "Same number of protons and neutrons", "Same number of neutrons but different number of protons"], answer: 0 },
+    { topic: "Structure of Atom", question: "The dual nature of matter was proposed by:", options: ["Niels Bohr", "Max Planck", "Louis de Broglie", "Werner Heisenberg"], answer: 2 },
+    { topic: "Structure of Atom", question: "What is the maximum number of electrons that can be accommodated in a subshell for which l=3?", options: ["6", "10", "14", "18"], answer: 2 },
+    { topic: "Structure of Atom", question: "The Bohr model of an atom could not explain the spectrum of:", options: ["Hydrogen atom", "He⁺ ion", "Li²⁺ ion", "Helium atom"], answer: 3 },
+    { topic: "Structure of Atom", question: "The magnetic quantum number (m) specifies:", options: ["The size of the orbital", "The shape of the orbital", "The orientation of the orbital in space", "The spin of the electron"], answer: 2 },
+    { topic: "Structure of Atom", question: "The photoelectric effect demonstrates the:", options: ["Wave nature of light", "Particle nature of light", "Dual nature of light", "Wave nature of electrons"], answer: 1 },
+    { topic: "Structure of Atom", question: "Neutrons were discovered by:", options: ["J.J. Thomson", "Goldstein", "Rutherford", "James Chadwick"], answer: 3 },
+    { topic: "Structure of Atom", question: "An orbital can hold a maximum of two electrons with opposite spins. This is stated by:", options: ["Hund's Rule", "Aufbau Principle", "Pauli's Exclusion Principle", "de Broglie's principle"], answer: 2 },
+    { topic: "Structure of Atom", question: "The radius of the first orbit of a hydrogen atom according to Bohr's model is approximately:", options: ["0.529 Å", "1.058 Å", "2.116 Å", "0.265 Å"], answer: 0 },
+    { topic: "Structure of Atom", question: "Which series of lines in the hydrogen spectrum lies in the visible region?", options: ["Lyman series", "Balmer series", "Paschen series", "Brackett series"], answer: 1 },
+    { topic: "Structure of Atom", question: "Isobars are atoms having the same:", options: ["Atomic number", "Number of neutrons", "Mass number", "Number of electrons"], answer: 2 },
+    { topic: "Periodicity", question: "The Modern Periodic Law is based on:", options: ["Atomic mass", "Atomic number", "Number of neutrons", "Valency"], answer: 1 },
+    { topic: "Periodicity", question: "Which of the following has the largest atomic radius?", options: ["Na", "Mg", "K", "Ca"], answer: 2 },
+    { topic: "Periodicity", question: "Electron gain enthalpy is generally:", options: ["Positive for halogens", "Negative for most elements", "Zero for noble gases", "Always positive"], answer: 1 },
+    { topic: "Periodicity", question: "The most electronegative element in the periodic table is:", options: ["Chlorine", "Oxygen", "Fluorine", "Nitrogen"], answer: 2 },
+    { topic: "Periodicity", question: "The elements of Group 18 are known as:", options: ["Alkali metals", "Alkaline earth metals", "Halogens", "Noble gases"], answer: 3 },
+    { topic: "Periodicity", question: "Ionization enthalpy decreases down a group because of:", options: ["Increase in nuclear charge", "Increase in atomic size and screening effect", "Decrease in atomic size", "Increase in effective nuclear charge"], answer: 1 },
+    { topic: "Periodicity", question: "The general electronic configuration of d-block elements is:", options: ["ns¹⁻²", "ns² np¹⁻⁶", "(n-1)d¹⁻¹⁰ ns¹⁻²", "(n-2)f¹⁻¹⁴ (n-1)d⁰⁻¹ ns²"], answer: 2 },
+    { topic: "Periodicity", question: "Which pair of elements shows a diagonal relationship?", options: ["Li and Na", "Be and Al", "B and Si", "Both Be and Al, and B and Si"], answer: 3 },
+    { topic: "Periodicity", question: "The element with atomic number 101 is named:", options: ["Nobelium", "Lawrencium", "Mendelevium", "Fermium"], answer: 2 },
+    { topic: "Periodicity", question: "Which of the following oxides is amphoteric in nature?", options: ["Na₂O", "Al₂O₃", "SO₂", "Cl₂O₇"], answer: 1 },
+    { topic: "Periodicity", question: "Atomic radius generally increases from left to right across a period.", options: ["True", "False"], answer: 1 },
+    { topic: "Periodicity", question: "The second ionisation enthalpy is always higher than the first ionisation enthalpy because:", options: ["The atom is larger", "It is more difficult to remove an electron from a positive ion", "The effective nuclear charge decreases", "The electron is in a lower energy level"], answer: 1 },
+    { topic: "Periodicity", question: "The size of an isoelectronic series (e.g., N³⁻, O²⁻, F⁻, Na⁺) depends on:", options: ["Nuclear charge", "Number of electrons", "Principal quantum number", "Azimuthal quantum number"], answer: 0 },
+    { topic: "Periodicity", question: "Anomalous properties of second-period elements are due to:", options: ["Small size", "High electronegativity", "Absence of d-orbitals", "All of the above"], answer: 3 },
+    { topic: "Periodicity", question: "Which property remains almost the same on moving down a group?", options: ["Atomic radius", "Ionization enthalpy", "Electronegativity", "Valency"], answer: 3 },
+    { topic: "Periodicity", question: "The correct order of increasing acidic nature of oxides is:", options: ["Na₂O < MgO < Al₂O₃ < SiO₂", "SiO₂ < Al₂O₃ < MgO < Na₂O", "Al₂O₃ < SiO₂ < MgO < Na₂O", "MgO < Na₂O < SiO₂ < Al₂O₃"], answer: 0 },
+    { topic: "Periodicity", question: "Mendeleev's periodic table was based on:", options: ["Atomic Number", "Atomic Mass", "Number of Neutrons", "Electronic Configuration"], answer: 1 },
+    { topic: "Periodicity", question: "The element with the highest electron gain enthalpy (most negative) is:", options: ["Fluorine", "Chlorine", "Bromine", "Iodine"], answer: 1 },
+    { topic: "Periodicity", question: "Elements in the same vertical column of the periodic table have same:", options: ["Number of electrons", "Atomic number", "Number of valence electrons", "Atomic mass"], answer: 2 },
+    { topic: "Periodicity", question: "The tendency of an atom to attract a shared pair of electrons is known as:", options: ["Ionization enthalpy", "Electron gain enthalpy", "Electronegativity", "Valency"], answer: 2 },
+    { topic: "Chemical Bonding", question: "The geometry of the methane (CH₄) molecule is:", options: ["Linear", "Trigonal planar", "Tetrahedral", "Octahedral"], answer: 2 },
+    { topic: "Chemical Bonding", question: "Which of the following molecules has a hydrogen bond?", options: ["CH₄", "H₂S", "HCl", "H₂O"], answer: 3 },
+    { topic: "Chemical Bonding", question: "The shape of the BeCl₂ molecule according to VSEPR theory is:", options: ["Linear", "Bent", "Trigonal planar", "Tetrahedral"], answer: 0 },
+    { topic: "Chemical Bonding", question: "The hybridization of the central atom in NH₃ is:", options: ["sp", "sp²", "sp³", "sp³d"], answer: 2 },
+    { topic: "Chemical Bonding", question: "According to Molecular Orbital Theory, the bond order of O₂ is:", options: ["1", "1.5", "2", "2.5"], answer: 2 },
+    { topic: "Chemical Bonding", question: "Which of the following is a polar molecule?", options: ["CO₂", "BF₃", "CCl₄", "NH₃"], answer: 3 },
+    { topic: "Chemical Bonding", question: "An ionic bond is formed between:", options: ["Two non-metals", "A metal and a non-metal", "Two metals", "A metal and a metalloid"], answer: 1 },
+    { topic: "Chemical Bonding", question: "The concept of resonance is used to explain:", options: ["The shape of molecules", "The bond length in certain molecules", "The polarity of molecules", "The number of bonds"], answer: 1 },
+    { topic: "Chemical Bonding", question: "A coordinate covalent bond is formed by:", options: ["Sharing of one electron by each atom", "Transfer of one electron", "Sharing of an electron pair donated by one atom", "Transfer of two electrons"], answer: 2 },
+    { topic: "Chemical Bonding", question: "The bond angle in a water (H₂O) molecule is approximately:", options: ["180°", "120°", "109.5°", "104.5°"], answer: 3 },
+    { topic: "Chemical Bonding", question: "Fajan's rules relate to the:", options: ["Polarizing power of cations", "Polarisability of anions", "Covalent character in ionic bonds", "All of the above"], answer: 3 },
+    { topic: "Chemical Bonding", question: "The shape of the SF₆ molecule is:", options: ["Tetrahedral", "Trigonal bipyramidal", "Octahedral", "Square planar"], answer: 2 },
+    { topic: "Chemical Bonding", question: "Which theory explains the paramagnetic nature of the O₂ molecule?", options: ["Valence Bond Theory", "VSEPR Theory", "Molecular Orbital Theory", "Lewis Theory"], answer: 2 },
+    { topic: "Chemical Bonding", question: "The formation of an ionic bond is favored by:", options: ["Low ionization enthalpy of metal", "High electron gain enthalpy of non-metal", "High lattice energy", "All of the above"], answer: 3 },
+    { topic: "Chemical Bonding", question: "The number of sigma (σ) and pi (π) bonds in an ethyne (C₂H₂) molecule are:", options: ["3σ and 2π", "2σ and 3π", "3σ and 1π", "1σ and 2π"], answer: 0 },
+    { topic: "Chemical Bonding", question: "The octet rule is not followed in which of the following molecules?", options: ["CH₄", "H₂O", "PCl₅", "CCl₄"], answer: 2 },
+    { topic: "Chemical Bonding", question: "The Born-Haber cycle is used to determine:", options: ["Enthalpy of formation", "Lattice enthalpy", "Ionization enthalpy", "Electron gain enthalpy"], answer: 1 },
+    { topic: "Chemical Bonding", question: "Which type of hybridization leads to a trigonal planar geometry?", options: ["sp", "sp²", "sp³", "dsp²"], answer: 1 },
+    { topic: "Chemical Bonding", question: "Which type of hydrogen bond is stronger?", options: ["Intermolecular", "Intramolecular", "Both are of equal strength", "Depends on the molecule"], answer: 0 },
+    { topic: "Chemical Bonding", question: "In a double bond connecting two atoms, there is a sharing of:", options: ["2 electrons", "4 electrons", "6 electrons", "1 electron"], answer: 1 },
+    { topic: "Organic Chemistry", question: "The IUPAC name for CH₃-CH(OH)-CH₃ is:", options: ["2-Propanol", "Propan-2-ol", "Isopropyl alcohol", "Both Propan-2-ol and 2-Propanol are correct"], answer: 1 },
+    { topic: "Organic Chemistry", question: "Which of the following is an electrophile?", options: ["H₂O", "NH₃", "BF₃", "OH⁻"], answer: 2 },
+    { topic: "Organic Chemistry", question: "The phenomenon where a single compound exists in two or more interconvertible structures that differ in the relative position of at least one atomic nucleus is called:", options: ["Metamerism", "Tautomerism", "Isomerism", "Resonance"], answer: 1 },
+    { topic: "Organic Chemistry", question: "Homolytic fission of a C-C bond results in the formation of:", options: ["Carbocations", "Carbanions", "Free radicals", "Nucleophiles"], answer: 2 },
+    { topic: "Organic Chemistry", question: "The inductive effect is:", options: ["A permanent effect", "A temporary effect", "Related to pi electrons", "Also known as electromeric effect"], answer: 0 },
+    { topic: "Organic Chemistry", question: "Which of the following compounds will show geometrical isomerism?", options: ["But-1-ene", "But-2-ene", "Propene", "2-Methylpropene"], answer: 1 },
+    { topic: "Organic Chemistry", question: "Lassaigne's test is used for the detection of:", options: ["Carbon and Hydrogen", "Nitrogen, Sulphur, and Halogens", "Oxygen", "Phosphorus"], answer: 1 },
+    { topic: "Organic Chemistry", question: "Hyperconjugation involves the delocalization of:", options: ["π electrons", "σ electrons of C-H bond", "Lone pair of electrons", "Negative charge"], answer: 1 },
+    { topic: "Organic Chemistry", question: "The correct order of stability for carbocations is:", options: ["3° > 2° > 1° > Methyl", "Methyl > 1° > 2° > 3°", "2° > 3° > 1° > Methyl", "1° > 2° > 3° > Methyl"], answer: 0 },
+    { topic: "Organic Chemistry", question: "The reaction CH₃Br + OH⁻ → CH₃OH + Br⁻ is an example of:", options: ["Addition reaction", "Elimination reaction", "Nucleophilic substitution", "Electrophilic substitution"], answer: 2 },
+    { topic: "Organic Chemistry", question: "The IUPAC name of the compound with the formula (CH₃)₃C-CH=CH₂ is:", options: ["3,3-Dimethylbut-1-ene", "1,1,1-Trimethylprop-2-ene", "3,3,3-Trimethylprop-1-ene", "2,2-Dimethylbut-3-ene"], answer: 0 },
+    { topic: "Organic Chemistry", question: "Which functional group is present in aldehydes?", options: ["-OH", "-COOH", "-CHO", "-CO-"], answer: 2 },
+    { topic: "Organic Chemistry", question: "Compounds having the same molecular formula but different arrangements of atoms are called:", options: ["Isotopes", "Isomers", "Isobars", "Allotropes"], answer: 1 },
+    { topic: "Organic Chemistry", question: "A nucleophile is a species that:", options: ["Is electron deficient", "Is electron rich", "Is neutral", "Carries a positive charge"], answer: 1 },
+    { topic: "Organic Chemistry", question: "The Carius method is used for the estimation of:", options: ["Nitrogen", "Halogens", "Carbon", "Hydrogen"], answer: 1 },
+    { topic: "Organic Chemistry", question: "The electromeric effect is a:", options: ["Permanent effect", "Temporary effect", "Effect in saturated compounds", "Effect related to sigma bonds"], answer: 1 },
+    { topic: "Organic Chemistry", question: "SN1 reactions proceed through the formation of a:", options: ["Free radical intermediate", "Carbanion intermediate", "Carbocation intermediate", "Transition state only"], answer: 2 },
+    { topic: "Organic Chemistry", question: "Chain and positional isomerism are types of:", options: ["Stereoisomerism", "Structural isomerism", "Geometrical isomerism", "Optical isomerism"], answer: 1 },
+    { topic: "Organic Chemistry", question: "The Kjeldahl method is used to estimate:", options: ["Halogens", "Sulphur", "Phosphorus", "Nitrogen"], answer: 3 },
+    { topic: "Organic Chemistry", question: "Which of the following is the most stable free radical?", options: ["Methyl", "Primary", "Secondary", "Tertiary"], answer: 3 }
+];
+
+const startScreen = document.getElementById('start-screen');
+const quizScreen = document.getElementById('quiz-screen');
+const resultsScreen = document.getElementById('results-screen');
+const startBtn = document.getElementById('start-btn');
+const questionText = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const progressIndicator = document.getElementById('progress-indicator');
+const topicIndicator = document.getElementById('topic-indicator');
+const scoreText = document.getElementById('score-text');
+const feedbackText = document.getElementById('feedback-text');
+const restartBtn = document.getElementById('restart-btn');
+const reviewBtn = document.getElementById('review-btn');
+const reviewContainer = document.getElementById('review-container');
+
+let currentQuestionIndex = 0;
+let userAnswers = new Array(quizData.length).fill(null);
+let overallChartInstance = null;
+let topicChartInstance = null;
+
+function startQuiz() {
+    currentQuestionIndex = 0;
+    userAnswers.fill(null);
+    startScreen.classList.add('hidden');
+    resultsScreen.classList.add('hidden');
+    quizScreen.classList.remove('hidden');
+    displayQuestion(currentQuestionIndex);
+}
+
+function displayQuestion(index) {
+    const question = quizData[index];
+    questionText.textContent = question.question;
+    topicIndicator.textContent = question.topic;
+    progressIndicator.textContent = `Question ${index + 1} of ${quizData.length}`;
+    optionsContainer.innerHTML = '';
+
+    question.options.forEach((option, optionIndex) => {
+        const button = document.createElement('button');
+        button.textContent = option;
+        button.classList.add('w-full', 'text-left', 'p-4', 'border-2', 'rounded-lg', 'quiz-option', 'hover:bg-amber-100');
+        if (userAnswers[index] === optionIndex) {
+            button.classList.add('selected');
+        }
+        button.onclick = () => selectOption(index, optionIndex);
+        optionsContainer.appendChild(button);
+    });
+
+    updateNavigationButtons();
+}
+
+function selectOption(questionIndex, optionIndex) {
+    userAnswers[questionIndex] = optionIndex;
+    const buttons = optionsContainer.querySelectorAll('button');
+    buttons.forEach((btn, idx) => {
+        btn.classList.remove('selected');
+        if (idx === optionIndex) {
+            btn.classList.add('selected');
+        }
+    });
+}
+
+function updateNavigationButtons() {
+    prevBtn.disabled = currentQuestionIndex === 0;
+    prevBtn.classList.toggle('opacity-50', currentQuestionIndex === 0);
+
+    if (currentQuestionIndex === quizData.length - 1) {
+        nextBtn.textContent = 'Submit';
+    } else {
+        nextBtn.textContent = 'Next';
+    }
+}
+
+function navigate(direction) {
+    const newIndex = currentQuestionIndex + direction;
+    if (newIndex >= 0 && newIndex < quizData.length) {
+        currentQuestionIndex = newIndex;
+        displayQuestion(currentQuestionIndex);
+    }
+}
+
+function handleSubmit() {
+    if (currentQuestionIndex === quizData.length - 1) {
+        showResults();
+    } else {
+        navigate(1);
+    }
+}
+
+function showResults() {
+    quizScreen.classList.add('hidden');
+    resultsScreen.classList.remove('hidden');
+    reviewContainer.classList.add('hidden');
+    reviewContainer.innerHTML = '';
+
+    let score = 0;
+    userAnswers.forEach((answer, index) => {
+        if (answer === quizData[index].answer) {
+            score++;
+        }
+    });
+
+    scoreText.textContent = `You scored ${score} out of ${quizData.length}.`;
+
+    const percentage = (score / quizData.length) * 100;
+    if (percentage >= 80) {
+        feedbackText.textContent = "Excellent work! You have a strong grasp of the concepts.";
+    } else if (percentage >= 60) {
+        feedbackText.textContent = "Good effort! A little more practice and you'll be an expert.";
+    } else {
+        feedbackText.textContent = "Keep practicing. Review your answers to identify areas for improvement.";
+    }
+
+    renderCharts(score);
+}
+
+function getTopicScores() {
+    const topicData = {};
+    quizData.forEach((q, index) => {
+        if (!topicData[q.topic]) {
+            topicData[q.topic] = { correct: 0, total: 0 };
+        }
+        topicData[q.topic].total++;
+        if (userAnswers[index] === q.answer) {
+            topicData[q.topic].correct++;
+        }
+    });
+    return topicData;
+}
+
+function renderCharts(score) {
+    const overallCtx = document.getElementById('overall-chart').getContext('2d');
+    if (overallChartInstance) overallChartInstance.destroy();
+    overallChartInstance = new Chart(overallCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Correct', 'Incorrect'],
+            datasets: [{
+                data: [score, quizData.length - score],
+                backgroundColor: ['#22c55e', '#ef4444'],
+                borderColor: ['#ffffff'],
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                }
+            }
+        }
+    });
+
+    const topicScores = getTopicScores();
+    const topicLabels = Object.keys(topicScores);
+    const topicCorrectData = topicLabels.map(label => (topicScores[label].correct / topicScores[label].total) * 100);
+
+    const topicCtx = document.getElementById('topic-chart').getContext('2d');
+    if (topicChartInstance) topicChartInstance.destroy();
+    topicChartInstance = new Chart(topicCtx, {
+        type: 'bar',
+        data: {
+            labels: topicLabels,
+            datasets: [{
+                label: '% Correct',
+                data: topicCorrectData,
+                backgroundColor: '#fbbf24' // amber-400
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + "%"
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const correct = topicScores[label].correct;
+                            const total = topicScores[label].total;
+                            return ` Score: ${correct} / ${total}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function showReview() {
+    reviewContainer.classList.toggle('hidden');
+    if (!reviewContainer.classList.contains('hidden')) {
+        reviewBtn.textContent = 'Hide Review';
+        if (reviewContainer.innerHTML === '') {
+            quizData.forEach((question, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.classList.add('p-4', 'border', 'rounded-lg', 'bg-white');
+                
+                const qText = document.createElement('p');
+                qText.classList.add('font-bold', 'mb-4');
+                qText.textContent = `${index + 1}. ${question.question}`;
+                qDiv.appendChild(qText);
+
+                const optionsList = document.createElement('div');
+                optionsList.classList.add('space-y-2');
+                question.options.forEach((option, optIndex) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.textContent = option;
+                    optionDiv.classList.add('p-2', 'border', 'rounded');
+
+                    if (optIndex === question.answer) {
+                        optionDiv.classList.add('correct');
+                    }
+
+                    if (userAnswers[index] === optIndex && userAnswers[index] !== question.answer) {
+                        optionDiv.classList.add('incorrect');
+                    } else if (userAnswers[index] === optIndex && userAnswers[index] === question.answer) {
+                        optionDiv.classList.add('correct'); // if selected is correct, it should be green
+                    }
+
+                    if (userAnswers[index] === null && optIndex === question.answer) {
+                         optionDiv.classList.add('border-blue-500', 'border-2'); // Highlight correct if unanswered
+                    }
+
+                    optionsList.appendChild(optionDiv);
+                });
+
+                qDiv.appendChild(optionsList);
+                
+                if (userAnswers[index] === null) {
+                    const unansweredText = document.createElement('p');
+                    unansweredText.textContent = 'You did not answer this question.';
+                    unansweredText.classList.add('mt-2', 'text-sm', 'text-yellow-600', 'font-semibold');
+                    qDiv.appendChild(unansweredText);
+                }
+
+                reviewContainer.appendChild(qDiv);
+            });
+        }
+    } else {
+        reviewBtn.textContent = 'Review Answers';
+    }
+}
+
+startBtn.addEventListener('click', startQuiz);
+prevBtn.addEventListener('click', () => navigate(-1));
+nextBtn.addEventListener('click', handleSubmit);
+restartBtn.addEventListener('click', startQuiz);
+reviewBtn.addEventListener('click', showReview);
+</script>
+
+</body>
+</html>
